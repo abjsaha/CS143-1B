@@ -1,0 +1,82 @@
+CREATE TABLE Movie
+(
+	id INT NOT NULL,
+	title VARCHAR(100) NOT NULL,
+	year INT NOT NULL,
+	rating VARCHAR(10),
+	company VARCHAR (50) NOT NULL,
+	PRIMARY KEY (id),
+	CHECK (LENGTH(title)>0)
+) ENGINE=INNODB;
+
+CREATE TABLE Actor
+(
+	id INT NOT NULL,
+	last VARCHAR(20) NOT NULL,
+	first VARCHAR(20) NOT NULL,
+	sex VARCHAR(6) NOT NULL,
+	dob DATE NOT NULL,
+	dod DATE,
+	PRIMARY KEY (id),
+	CHECK ((dod IS NOT NULL and dob IS NOT NULL and dob<dod) or dod IS NULL)
+) ENGINE=INNODB;
+
+CREATE TABLE Director
+(
+	id INT NOT NULL,
+	last VARCHAR(20) NOT NULL,
+	first VARCHAR(20) NOT NULL,
+	dob DATE NOT NULL,
+	dod DATE,
+	PRIMARY KEY (id),
+	CHECK ((dod IS NOT NULL and dob IS NOT NULL and dob<dod) or dod IS NULL)
+) ENGINE=INNODB;
+
+CREATE TABLE MovieGenre
+(
+	mid INT NOT NULL,
+	genre VARCHAR(20) NOT NULL,
+	PRIMARY KEY (mid, genre),
+	FOREIGN KEY (mid) REFERENCES Movie (id)
+) ENGINE=INNODB;
+
+CREATE TABLE MovieDirector
+(
+	mid INT NOT NULL,
+	did INT NOT NULL,
+	PRIMARY KEY(mid, did),
+	FOREIGN KEY mid REFERENCES Movie (id),
+	FOREIGN KEY did REFERENCES Director (id)
+) ENGINE=INNODB;
+
+CREATE TABLE MovieActor
+(
+	mid INT NOT NULL,
+	aid INT NOT NULL,
+	role VARCHAR(50),
+	PRIMARY KEY(mid, aid),
+	FOREIGN KEY mid REFERENCES Movie (id),
+	FOREIGN KEY aid REFERENCES Actor (id)
+) ENGINE=INNODB;
+
+CREATE TABLE Review
+(
+	name VARCHAR(20) NOT NULL,
+	time TIMESTAMP NOT NULL,
+	mid INT NOT NULL,
+	rating INT NOT NULL,
+	comment VARCHAR(50),
+	UNIQUE(name, mid),
+	FOREIGN KEY mid REFERENCES Movie (id),
+	CHECK(rating <= 5 AND rating >= 0)
+) ENGINE=INNODB;
+
+CREATE TABLE MaxPersonID
+(
+	id INT NOT NULL
+) ENGINE=INNODB;
+
+CREATE TABLE MaxMovieID
+(
+	id INT NOT NULL
+) ENGINE=INNODB;
