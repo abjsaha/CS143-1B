@@ -44,8 +44,8 @@ CREATE TABLE MovieDirector
 	mid INT NOT NULL, /*Movie ID must not be null*/
 	did INT NOT NULL, /*Director ID must not be null*/
 	PRIMARY KEY(mid, did), /*Movie ID and Director ID must be unique*/
-	FOREIGN KEY mid REFERENCES Movie (id), /*Movie ID is the same as ID in Movie Table*/
-	FOREIGN KEY did REFERENCES Director (id) /*Director ID is the same as ID in Director Table*/
+	FOREIGN KEY (mid) REFERENCES Movie (id), /*Movie ID is the same as ID in Movie Table*/
+	FOREIGN KEY (did) REFERENCES Director (id) /*Director ID is the same as ID in Director Table*/
 ) ENGINE=INNODB;
 
 CREATE TABLE MovieActor
@@ -54,8 +54,8 @@ CREATE TABLE MovieActor
 	aid INT NOT NULL, /*Actor ID must not be null*/
 	role VARCHAR(50),
 	PRIMARY KEY(mid, aid), /*Movie ID and Actor ID must be unique*/
-	FOREIGN KEY mid REFERENCES Movie (id), /*Movie ID is the same as ID in Movie Table*/
-	FOREIGN KEY aid REFERENCES Actor (id) /*Actor ID is the same as ID in Actor Table*/
+	FOREIGN KEY (mid) REFERENCES Movie (id), /*Movie ID is the same as ID in Movie Table*/
+	FOREIGN KEY (aid) REFERENCES Actor (id) /*Actor ID is the same as ID in Actor Table*/
 ) ENGINE=INNODB;
 
 CREATE TABLE Review
@@ -66,8 +66,8 @@ CREATE TABLE Review
 	rating INT NOT NULL, /*rating must not be null*/
 	comment VARCHAR(50),
 	PRIMARY KEY(name, mid), /*Name and Movie ID must be unique*/
-	FOREIGN KEY mid REFERENCES Movie (id), /*Movie ID is the same as ID in Movie Table*/
-	CHECK(rating <= 5 AND rating >= 0) /*Rating must lie between 0 and 5*/
+	FOREIGN KEY (mid) REFERENCES Movie (id), /*Movie ID is the same as ID in Movie Table*/
+	CHECK (rating <= 5 AND rating >= 0) /*Rating must lie between 0 and 5*/
 ) ENGINE=INNODB;
 
 CREATE TABLE MaxPersonID
